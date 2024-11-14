@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Header from "../components/Header.tsx";
 import InputFieldmap from "../components/InputFieldMap.tsx";
 
@@ -9,129 +9,39 @@ import {
 } from "../components/Types/types.ts";
 import MapSections from "../components/MapSections.tsx";
 import { useSearchParams } from "react-router-dom";
+import AddSectionButton from "../components/Buttons/AddSectionsButton.tsx";
+import AddSectionModal from "../components/AddSectionModal.tsx";
+import AppContext from "../AppContext/AppContext.js";
 
-let DynamicFormList: DynamicFormListType = [
-  {
-    id: 1,
-    name: "section 1",
-    fields: [
-      {
-        id: 1,
-        section_id: 1,
-        field_id: 1,
-        type: "InputField",
-        conditions: [],
-        label: "Input Field 1",
-        placeholder: "Input Field 1 placeholder",
-        subFields: [
-          {
-            id: 12,
-            section_id: 1,
-            field_id: 1,
-            type: "InputField",
-            conditions: [`text=="Ammar"`],
-            label: " sub field InputField 1",
-            placeholder: "Input Field placeholder",
-          },
-          {
-            id: 2,
-            section_id: 1,
-            field_id: 1,
-            type: "InputField",
-            conditions: [`text=="Ayyan"`],
-            label: " sub field InputField 1",
-            placeholder: "Input Field 3 placeholder",
-          },
-        ],
-      },
-    ],
-    subsections: [
-      {
-        section_id: 1,
-        id: 1,
-        name: "Sub Section 11",
-        fields: [],
-      },
-    ],
-    // condition:[]
-  },
-  {
-    id: 2,
-    name: "section 2",
-    fields: [
-      {
-        id: 1,
-        section_id: 2,
-        field_id: 1,
-        type: "InputField",
-        conditions: [],
-        label: "Input Field 1",
-        placeholder: "Input Field 1 placeholder",
-        subFields: [
-          {
-            id: 1,
-            field_id: 1,
-            section_id: 2,
-            type: "InputField",
-            // conditions: [`text=="Ammar"`],
-            label: " sub field InputField 1",
-            placeholder: "Input Field placeholder",
-          },
-          {
-            id: 2,
-            field_id: 1,
-            section_id: 2,
-            type: "InputField",
-            // conditions: [`text=="Ayyan"`],
-            label: " sub field InputField 1",
-            placeholder: "Input Field 3 placeholder",
-          },
-        ],
-      },
-    ],
-    subsections: [
-      {
-        id: 2,
-        section_id: 1,
-        name: "Sub Section 1",
-        fields: [],
-      },
-    ],
-    // condition:[]
-  },
-];
+
 
 export default function MakeFormPage() {
-  const [SectionList, setSectionList] = useState<DynamicFormListType>([]);
-  const tempSection: Section = {
-    id:2,
-    section_id: 12,
-    name: "Section",
-    fields: [],
-  };
+  // const [SectionList, setSectionList] = useState<DynamicFormListType>([]);
+  const [showModalAddSection, setshowModalAddSection] = useState(false)
+
+
+  const {Sectiondata,setSectiondata}=useContext(AppContext)
+
   useEffect(() => {
-    console.log("DynamicFormList", DynamicFormList);
-    console.log("tempSection", tempSection);
-    setSectionList(DynamicFormList);
+    console.log("DynamicFormList", Sectiondata);
+    // console.log("tempSection", tempSection);
+    setSectiondata(Sectiondata);
   }, []);
 
   return (
-    <div className=" bg-red-50 h-[100vh] overflow-y-scroll">
+    <div className=" bg-background h-[100vh] overflow-y-scroll">
       <Header />
-      {SectionList.length > 0 ? (
-        <MapSections sections={SectionList} value={null} />
-      ) : null}
-      <div
-        onClick={() => [
-          setSectionList((SectionList) => [
-            ...(SectionList || []),
-            tempSection,
-          ]),
-          console.log("SectionList", SectionList),
-        ]}
-      >
-        Add Section
+      <div className=" w-11/12 justify-self-center">
+        {Sectiondata.length > 0 ? (
+          <MapSections sections={Sectiondata} value={null} />
+        ) : null}
+        <div >
+          <div className=" w-full flex items-center justify-end py-2 mt-8 border-t-4 ">
+            <AddSectionButton onClick={() => setshowModalAddSection(true)} />
+          </div>
+        </div>
       </div>
+      <AddSectionModal openModal={showModalAddSection} setOpenModal={setshowModalAddSection}/>
     </div>
   );
 }

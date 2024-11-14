@@ -10,6 +10,10 @@ module.exports = {
         secondary: '#16a349',
         accent: '#9C27B0',
         background: '#F3F4F6',
+        // fields:'#FEFFA7',
+        // subfields:'#FFE700',
+        // sections:'#72BF78',
+        // subsections:'#A0D683'
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
