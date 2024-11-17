@@ -30,7 +30,7 @@ export default function MakeFormPage() {
 
   return (
     <div className=" bg-background h-[100vh] overflow-y-scroll">
-      <Header />
+
       <div className=" w-11/12 justify-self-center">
         {Sectiondata.length > 0 ? (
           <MapSections sections={Sectiondata} value={null} />
